@@ -18,4 +18,4 @@ echo "Building DinD"
 docker build -t dind .
 
 echo "Starting DinD"
-docker run --privileged -d -p 2375 -e PORT=2375 dind
+docker run --privileged -d -p 2375:2375 -e PORT=2375 dind
