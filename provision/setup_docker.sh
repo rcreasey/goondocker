@@ -3,14 +3,14 @@
 echo "Installing Docker in base image"
 pacman --noconfirm -S docker
 
-cat >/etc/systemd/system/multi-user.target.wants/docker.service <<EOF
+cat >/etc/systemd/system/docker.service <<EOF
 [Unit]
 Description=Docker Application Container Engine
 Documentation=http://docs.docker.io
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/docker -d -H unix:// -H tcp://0.0.0.0:23750
+ExecStart=/usr/bin/docker -d -H unix:// -H tcp://0.0.0.0:23750 -g /opt/docker
 Restart=on-failure
 LimitNOFILE=1048576
 LimitNPROC=1048576
@@ -24,6 +24,7 @@ systemctl start docker
 systemctl enable docker
 
 echo "Cloning DinD"
+pacman --noconfirm -S git
 git clone https://github.com/jpetazzo/dind.git && cd dind
 
 echo "Building DinD"
